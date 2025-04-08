@@ -57,14 +57,19 @@
     </style>
 </head>
 <body>
-    <h2>Your Availability</h2>
-    <textarea id="availabilityText" rows="10" cols="30" readonly></textarea>
-    <button id="copyButton">Copy to Clipboard</button>
-    <label for="startOfDay">Start of Day:</label>
-    <input type="time" id="startOfDay" value="00:00">
-    <label for="endOfDay">End of Day:</label>
-    <input type="time" id="endOfDay" value="23:59">
-    <label for="minSlotDuration">Minimum Slot Duration (minutes):</label>
-    <input type="number" id="minSlotDuration" value="15" min="1">
+    <div id="availabilityContainer">
+        <h2>Your Availability</h2>
+        <textarea id="availabilityText" rows="10" cols="30" readonly></textarea>
+        <button id="copyButton">Copy to Clipboard</button>
+        <label for="startOfDay">Start of Day:</label>
+        <input type="time" id="startOfDay" value="00:00">
+        <label for="endOfDay">End of Day:</label>
+        <input type="time" id="endOfDay" value="23:59">
+        <label for="minSlotDuration">Minimum Slot Duration (minutes):</label>
+        <input type="number" id="minSlotDuration" value="15" min="1">
+    </div>
+    <p id="unsupportedMessage">
+        Unsupported website detected. Please open Google Calendar.
+    </p> 
 </body>
 </html>

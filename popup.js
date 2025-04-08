@@ -50,11 +50,18 @@ function fetchAvailability() {
         const activeTab = tabs[0];
         const url = activeTab.url;
 
+        const availabilityContainer = document.getElementById("availabilityContainer");
+        const unsupportedMessage = document.getElementById("unsupportedMessage");
+
         // Check if the active tab is on calendar.google.com
         if (!url || !url.includes("calendar.google.com")) {
-            document.getElementById("availabilityText").value = "Please open Google Calendar.";
+            availabilityContainer.style.display = "none";
+            unsupportedMessage.style.display = "block";
             return;
         }
+
+        availabilityContainer.style.display = "block";
+        unsupportedMessage.style.display = "none";
 
         chrome.tabs.sendMessage(tabs[0].id, { action: "getAvailability" }, (response) => {
             if (chrome.runtime.lastError) {
@@ -63,7 +70,10 @@ function fetchAvailability() {
             }
 
             if (response.data == "Unsupported view") {
-                document.getElementById("availabilityText").value = "Please select a supported view.";
+                availabilityContainer.style.display = "none";
+                unsupportedMessage.style.display = "block";
+                unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, or month view.";
+                return;
             } else if (response.data) {
                 document.getElementById("availabilityText").value = response.data;
             } else {
