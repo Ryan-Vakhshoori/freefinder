@@ -134,7 +134,7 @@ function extractDates() {
         }
         date = removeYearFromDate(date.replace("Google Calendar - ", ""));// Remove the prefix from the title
         return [ activeView, [date] ]; // Return the date without the year
-    } else if (activeView == "WEEK") {
+    } else if (activeView == "WEEK" || activeView == "CUSTOM_DAYS") {
         const dayElements = document.querySelectorAll('h2.hI2jVc'); // Select all day elements
         const dates = Array.from(dayElements).map(day => {
             let date = day.getAttribute('aria-label'); // Extract the date
