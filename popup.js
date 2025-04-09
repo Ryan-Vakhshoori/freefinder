@@ -16,9 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("copyButton").addEventListener("click", () => {
     let text = document.getElementById("availabilityText").value;
-    navigator.clipboard.writeText(text).then(() => {
-        alert("Copied to clipboard!");
-    }).catch(err => console.error("Copy failed:", err));
+    navigator.clipboard.writeText(text).catch(err => console.error("Copy failed:", err));
 });
 
 // Function to save workday times
