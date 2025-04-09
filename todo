@@ -1,4 +1,3 @@
--move time conversion functions in content_script.js to different file
 -implement buffer option that offsets available time slot by buffer amount from previous event
 -provide option to use ai to convert availability to sentences
 -dark mode
