@@ -67,12 +67,15 @@ function fetchAvailability() {
                 return;
             }
 
+            document.getElementById("availabilityText").value = ""; // Clear previous availability text
+
             if (response.data == "Unsupported view") {
                 availabilityContainer.style.display = "none";
                 unsupportedMessage.style.display = "block";
                 unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, or month view.";
                 return;
             } else if (response.data) {
+                console.log(response.data);
                 document.getElementById("availabilityText").value = response.data;
             } else {
                 console.log("No response from content script.");

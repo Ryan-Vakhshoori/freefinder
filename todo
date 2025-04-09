@@ -6,5 +6,4 @@
 -start of day and end of day times in one line
 -info bubbles that provide description on hover e.g. minimum slot duration explanation
 -show date range next to your availability at top
--don't show dates that have no availability
 -move time conversion functions in content_script.js to different file
