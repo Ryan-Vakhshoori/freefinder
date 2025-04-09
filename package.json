@@ -1,0 +1,27 @@
+{
+  "name": "gcal-availability-finder",
+  "version": "1.0.0",
+  "description": "Steps to add extension to Google Chrome:\r 1. Download ZIP.\r 2. Unzip the download.\r 3. Open Google Chrome.\r 4. Go to chrome://extensions/.\r 5. Enable Developer mode.\r 6. Click Load unpacked and select the unzipped download as the extension directory.",
+  "main": "content_script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ryan-Vakhshoori/gcal-availability-finder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ryan-Vakhshoori/gcal-availability-finder/issues"
+  },
+  "homepage": "https://github.com/Ryan-Vakhshoori/gcal-availability-finder#readme",
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^10.0.0",
+    "webpack": "^5.99.5",
+    "webpack-cli": "^6.0.1"
+  }
+}

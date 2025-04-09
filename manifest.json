@@ -6,12 +6,12 @@
   "permissions": ["activeTab", "scripting", "clipboardWrite", "storage"],
   "host_permissions": ["https://calendar.google.com/*"],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "src/popup.html"
   },
   "content_scripts": [
     {
       "matches": ["https://calendar.google.com/*"],
-      "js": ["content_script.js"],
+      "js": ["dist/content_script.js"],
       "run_at": "document_idle"
     }
   ]

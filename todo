@@ -1,3 +1,4 @@
+-move time conversion functions in content_script.js to different file
 -implement buffer option that offsets available time slot by buffer amount from previous event
 -provide option to use ai to convert availability to sentences
 -dark mode
@@ -6,4 +7,3 @@
 -start of day and end of day times in one line
 -info bubbles that provide description on hover e.g. minimum slot duration explanation
 -show date range next to your availability at top
--move time conversion functions in content_script.js to different file

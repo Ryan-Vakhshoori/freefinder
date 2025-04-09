@@ -75,7 +75,6 @@ function fetchAvailability() {
                 unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, or month view.";
                 return;
             } else if (response.data) {
-                console.log(response.data);
                 document.getElementById("availabilityText").value = response.data;
             } else {
                 console.log("No response from content script.");
