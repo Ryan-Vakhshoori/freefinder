@@ -7,3 +7,4 @@
 -info bubbles that provide description on hover e.g. minimum slot duration explanation
 -show date range next to your availability at top
 -support for 4 days view
+-don't show dates that have no availability
