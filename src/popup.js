@@ -73,7 +73,6 @@ function fetchAvailability() {
                 availabilityContainer.style.display = "none";
                 unsupportedMessage.style.display = "block";
                 unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, or month view.";
-                return;
             } else if (response.data) {
                 document.getElementById("availabilityText").value = response.data;
             } else {

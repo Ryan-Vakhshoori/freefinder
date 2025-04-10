@@ -17,9 +17,9 @@ function extractAvailability(activeView, dates, callback) {
             return; // Skip this event if it has fewer than 4 commas
         }
 
-        let eventTime = eventText.split(",")[0]; // Get the text content of the event
-        let eventStartTime = eventTime.split(" ")[0]; // Extract the start time from the event text
-        let eventEndTime = eventTime.split(" ")[2]; // Extract the end time from the event text
+        let eventTime = eventText.split(",")[0]; // Get the start time and end time of the event
+        let eventStartTime = eventTime.split(" ")[0]; // Extract the start time
+        let eventEndTime = eventTime.split(" ")[2]; // Extract the end time
         let eventDate = removeYearFromDate(eventText.substring(eventText.lastIndexOf(",") + 1).trim()); // Extract the date from the event text and remove leading/trailing whitespace
 
         // Add the event start and end times to the eventTimes dictionary
@@ -32,8 +32,7 @@ function extractAvailability(activeView, dates, callback) {
     chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration"], (data) => {
         const startOfDay = data.startOfDay ? timeToMinutesMilitary(data.startOfDay) : 0; // Default to 12:00 AM
         const endOfDay = data.endOfDay ? timeToMinutesMilitary(data.endOfDay) : timeToMinutes("23:59"); // Default to 11:59 PM
-        const minSlotDuration = data.minSlotDuration ? data.minSlotDuration : 0; // Default to 0 minutes
-
+        const minSlotDuration = data.minSlotDuration ? data.minSlotDuration : 1; // Default to 1 minute
         dates.forEach(date => {
             availableSlots[date] = []; // Initialize each date with an empty array
         });
@@ -108,7 +107,7 @@ function extractDates() {
         if (date.includes(", today")) {
             date = date.replace(", today", ""); // Remove ", today" if it exists
         }
-        date = removeYearFromDate(date.replace("Google Calendar - ", ""));// Remove the prefix from the title
+        date = removeYearFromDate(date.replace("Google Calendar - ", "")); // Remove the prefix from the title
         return [ activeView, [date] ]; // Return the date without the year
     } else if (activeView == "WEEK" || activeView == "CUSTOM_DAYS") {
         const dayElements = document.querySelectorAll('h2.hI2jVc'); // Select all day elements
