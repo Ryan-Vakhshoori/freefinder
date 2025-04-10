@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Google Calendar Availability Finder",
   "version": "1.0",
-  "description": "Finds availability from Google Calendar and copies it to the clipboard.",
+  "description": "Finds availability from active Google Calendar tab.",
   "permissions": ["activeTab", "scripting", "clipboardWrite", "storage"],
   "host_permissions": ["https://calendar.google.com/*"],
   "action": {
@@ -14,7 +14,13 @@
       "js": ["dist/content_script.js"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
 }
 
   
