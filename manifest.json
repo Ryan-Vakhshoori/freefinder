@@ -4,7 +4,6 @@
   "version": "1.0",
   "description": "Finds availability from active Google Calendar tab.",
   "permissions": ["activeTab", "scripting", "clipboardWrite", "storage"],
-  "host_permissions": ["https://calendar.google.com/*"],
   "action": {
     "default_popup": "src/popup.html"
   },
