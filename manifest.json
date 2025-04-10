@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Google Calendar Availability Finder",
+  "name": "Availability Finder for Google Calendar",
   "version": "1.0",
   "description": "Finds availability from active Google Calendar tab.",
   "permissions": ["activeTab", "scripting", "clipboardWrite", "storage"],
