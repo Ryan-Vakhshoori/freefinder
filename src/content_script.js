@@ -92,8 +92,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             sendResponse({ data: "Unsupported view" });
             return;
         }
+        // Format the date range
+        let formattedDateRange;
+        if (dates.length > 1) {
+            formattedDateRange = `${dates[0]} - ${dates[dates.length - 1]}`;
+        } else {
+            formattedDateRange = dates[0];
+        }
         extractAvailability(activeView, dates, (availability) => { // Call the function to extract availability
-            sendResponse({ data: availability });
+            sendResponse({ data: [availability, formattedDateRange] });
         });
         return true; // Keep the message channel open for sendResponse
     }

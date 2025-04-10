@@ -68,13 +68,14 @@ function fetchAvailability() {
             }
 
             document.getElementById("availabilityText").value = ""; // Clear previous availability text
-
             if (response.data == "Unsupported view") {
                 availabilityContainer.style.display = "none";
                 unsupportedMessage.style.display = "block";
                 unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, or month view.";
             } else if (response.data) {
-                document.getElementById("availabilityText").value = response.data;
+                document.getElementById("availabilityText").value = response.data[0];
+                document.getElementById("dateRange").textContent = response.data[1];
+                console.log(document.getElementById("dateRange").value);
             } else {
                 console.log("No response from content script.");
             }
