@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Google Calendar Availability Extractor",
+  "name": "Google Calendar Availability Finder",
   "version": "1.0",
-  "description": "Extracts availability from Google Calendar and copies it to the clipboard.",
+  "description": "Finds availability from Google Calendar and copies it to the clipboard.",
   "permissions": ["activeTab", "scripting", "clipboardWrite", "storage"],
   "host_permissions": ["https://calendar.google.com/*"],
   "action": {
