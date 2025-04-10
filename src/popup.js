@@ -15,8 +15,23 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.getElementById("copyButton").addEventListener("click", () => {
-    let text = document.getElementById("availabilityText").value;
-    navigator.clipboard.writeText(text).catch(err => console.error("Copy failed:", err));
+    const copyButton = document.getElementById("copyButton");
+    const text = document.getElementById("availabilityText").value;
+
+    // Copy the text to the clipboard
+    navigator.clipboard.writeText(text).then(() => {
+        // Change button text to "Copied" and disable the button
+        copyButton.textContent = "Copied";
+        copyButton.disabled = true;
+        copyButton.style.backgroundColor = "#ccc"; // Gray out the button
+
+        // Revert the button back to its original state after 2 seconds
+        setTimeout(() => {
+            copyButton.textContent = "Copy";
+            copyButton.disabled = false;
+            copyButton.style.backgroundColor = ""; // Reset to default background color
+        }, 2000);
+    }).catch(err => console.error("Copy failed:", err));
 });
 
 // Function to save workday times

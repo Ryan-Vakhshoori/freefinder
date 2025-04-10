@@ -2,5 +2,4 @@
 -provide option to use ai to convert availability to sentences
 -dark mode
 -instead of text area for availability, make each slot a component so that each slot can be copied individually. slots for date can be copied together. copy availability for all dates
--when copy is clicked, change the button to show that it has been copied (maybe gray out, check mark for a few seconds)
 -info bubbles that provide description on hover e.g. minimum slot duration explanations
