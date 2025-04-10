@@ -86,7 +86,7 @@ function fetchAvailability() {
             if (response.data == "Unsupported view") {
                 availabilityContainer.style.display = "none";
                 unsupportedMessage.style.display = "block";
-                unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, or month view.";
+                unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, month, or 4 days view.";
             } else if (response.data) {
                 document.getElementById("availabilityText").value = response.data[0];
                 document.getElementById("dateRange").textContent = response.data[1];
