@@ -12,10 +12,16 @@
         <h2>Your Availability</h2>
         <textarea id="availabilityText" rows="10" cols="30" readonly></textarea>
         <button id="copyButton">Copy</button>
-        <label for="startOfDay">Start of Day:</label>
-        <input type="time" id="startOfDay" value="00:00">
-        <label for="endOfDay">End of Day:</label>
-        <input type="time" id="endOfDay" value="23:59">
+        <div id="timeInputsContainer">
+            <div class="timeInputGroup">
+                <label for="startOfDay">Day start time</label>
+                <input type="time" id="startOfDay" value="00:00">
+            </div>
+            <div class="timeInputGroup">
+                <label for="endOfDay">Day end time</label>
+                <input type="time" id="endOfDay" value="23:59">
+            </div>
+        </div>
         <label for="minSlotDuration">Minimum Slot Duration (minutes):</label>
         <input type="number" id="minSlotDuration" value="15" min="1">
     </div>
