@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 10px;
-    width: 320px; /* Set a fixed width for the popup */
+    width: 240px; /* Set a fixed width for the popup */
 }
 
 textarea {
@@ -47,4 +47,50 @@ input {
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 10px;
+}
+
+#timeInputsContainer {
+    display: grid;
+    grid-template-columns: auto auto; /* Two columns for labels and inputs */
+    gap: 10px 20px; /* Row and column spacing */
+    align-items: center; /* Align items vertically */
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.timeInputGroup {
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+}
+
+.timeInputGroup label {
+    text-align: left;
+    font-size: 14px;
+}
+
+.timeInputGroup input {
+    width: auto;
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+#timeLabels {
+    font-size: 14px;
+}
+
+#timeInputs {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between inputs and dash */
+}
+
+#timeInputs input {
+    width: auto;
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+#timeInputs span {
+    font-size: 16px;
+    font-weight: bold;
 }
