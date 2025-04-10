@@ -77,7 +77,7 @@ function extractAvailability(activeView, dates, callback) {
             .filter(([date, slots]) => slots.length > 0) // Filter out dates with no available slots
             .map(([date, slots]) => {
                 const formattedSlots = slots.map(slot => `${slot.start} - ${slot.end}`).join("\n");
-                return `${date}:\n${formattedSlots}`;
+                return `${date}\n${formattedSlots}`;
             })
             .join("\n\n");
 
