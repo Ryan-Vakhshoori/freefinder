@@ -6,3 +6,4 @@
 -start of day and end of day times in one line
 -info bubbles that provide description on hover e.g. minimum slot duration explanation
 -show date range next to your availability at top
+-remove dates not in month
