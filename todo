@@ -3,3 +3,4 @@
 -dark mode
 -instead of text area for availability, make each slot a component so that each slot can be copied individually. slots for date can be copied together. copy availability for all dates
 -info bubbles that provide description on hover e.g. minimum slot duration explanations
+-hide/show day start time, end time, etc.
