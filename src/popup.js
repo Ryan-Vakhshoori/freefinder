@@ -76,25 +76,46 @@ function fetchAvailability() {
         availabilityContainer.style.display = "block";
         unsupportedMessage.style.display = "none";
 
-        chrome.tabs.sendMessage(tabs[0].id, { action: "getAvailability" }, (response) => {
+        chrome.tabs.sendMessage(activeTab.id, { action: "ping" }, (response) => {
             if (chrome.runtime.lastError) {
-                console.error("Error sending message:", chrome.runtime.lastError.message);
-                return;
+                chrome.scripting.executeScript(
+                    {
+                        target: { tabId: activeTab.id },
+                        files: ["dist/content_script.js"]
+                    },
+                    () => {
+                        if (chrome.runtime.lastError) {
+                            console.error("Failed to inject content script:", chrome.runtime.lastError.message);
+                        } else {
+                            console.log("Content script injected successfully.");
+                            sendAvailabilityRequest(activeTab.id);
+                        }
+                    }
+                );
             }
+        }
+        );
+    });
+}
 
-            document.getElementById("availabilityText").value = ""; // Clear previous availability text
-            if (response.data == "Unsupported view") {
-                availabilityContainer.style.display = "none";
-                unsupportedMessage.style.display = "block";
-                unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, month, or 4 days view.";
-            } else if (response.data) {
-                document.getElementById("availabilityText").value = response.data[0];
-                document.getElementById("dateRange").textContent = response.data[1];
-                console.log(document.getElementById("dateRange").value);
-            } else {
-                console.log("No response from content script.");
-            }
-        });
+function sendAvailabilityRequest(tabId) {
+    chrome.tabs.sendMessage(tabId, { action: "getAvailability" }, (response) => {
+        if (chrome.runtime.lastError) {
+            console.error("Error sending message:", chrome.runtime.lastError.message);
+            return;
+        }
+
+        document.getElementById("availabilityText").value = ""; // Clear previous availability text
+        if (response.data == "Unsupported view") {
+            availabilityContainer.style.display = "none";
+            unsupportedMessage.style.display = "block";
+            unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, month, or 4 days view.";
+        } else if (response.data) {
+            document.getElementById("availabilityText").value = response.data[0];
+            document.getElementById("dateRange").textContent = response.data[1];
+        } else {
+            console.log("No response from content script.");
+        }
     });
 }
 
