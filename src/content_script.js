@@ -103,6 +103,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             sendResponse({ data: [availability, formattedDateRange] });
         });
         return true; // Keep the message channel open for sendResponse
+    } else if (request.action === "ping") {
+        sendResponse({ data: "pong" }); // Respond to the ping message
     }
 });
 

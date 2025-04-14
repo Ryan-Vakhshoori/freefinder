@@ -77,7 +77,11 @@ function fetchAvailability() {
         unsupportedMessage.style.display = "none";
 
         chrome.tabs.sendMessage(activeTab.id, { action: "ping" }, (response) => {
-            if (chrome.runtime.lastError) {
+            if (response && response.data === "pong") {
+                console.log("Content script is already injected.");
+                sendAvailabilityRequest(activeTab.id);
+                return;
+            } else if (chrome.runtime.lastError) {
                 chrome.scripting.executeScript(
                     {
                         target: { tabId: activeTab.id },
