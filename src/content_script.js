@@ -1,4 +1,4 @@
-import { timeToMinutes, timeToMinutesMilitary, minutesToTime, removeYearFromDate, extractDate, normalizeDateString } from "./utils.js"; // Import utility functions
+import { timeToMinutes, timeToMinutesMilitary, minutesToTime, extractDate, normalizeDateString } from "./utils.js"; // Import utility functions
 
 function extractAvailability(activeView, dates, callback) {
     let events;
@@ -23,7 +23,6 @@ function extractAvailability(activeView, dates, callback) {
         let eventTime = eventText.split(",")[0]; // Get the start time and end time of the event
         let eventStartTime = eventTime.split(" ")[0]; // Extract the start time
         let eventEndTime = eventTime.split(" ")[2]; // Extract the end time
-        // let eventDate = removeYearFromDate(eventText.substring(eventText.lastIndexOf(",") + 1).trim()); // Extract the date from the event text and remove leading/trailing whitespace
         let eventDate = extractDate(eventText); // Extract the date from the event text
         // Add the event start and end times to the eventTimes dictionary
         if (!eventTimes[eventDate]) {
@@ -117,34 +116,17 @@ function extractTimeframe() {
     const activeView = activeViewDiv.getAttribute('data-viewkey'); // Log the active view element
     if (activeView == "DAY") {
         let date = document.querySelector('title').textContent; // Extract the date from the title
-        // console.log("Date:", date); // Log the date
-        // if (date.includes(", today")) {
-        //     date = date.replace(", today", ""); // Remove ", today" if it exists
-        // }
-        // date = removeYearFromDate(date.replace("Google Calendar - ", "")); // Remove the prefix from the title
         date = normalizeDateString(date); // Normalize the date string
         return [ activeView, [date] ]; // Return the date without the year
     } else if (activeView == "WEEK" || activeView == "CUSTOM_DAYS") {
         const dayElements = document.querySelectorAll('h2.hI2jVc'); // Select all day elements
         const dates = Array.from(dayElements).map(day => {
-            // let date = day.getAttribute('aria-label'); // Extract the date
-            // if (date.includes(", today")) {
-            //     date = date.replace(", today", ""); // Remove ", today" if it exists
-            // }
-            // return date; // Return the cleaned date
             return normalizeDateString(day.getAttribute('aria-label')); // Normalize the date string
         });
         return [ activeView, dates ]; // Return the array of dates
     } else if (activeView == "MONTH") {
         const dayElements = document.querySelectorAll('h2.CqwSk.XuJrye'); // Select all day elements
         const dates = Array.from(dayElements).map(day => {
-            // let date = day.textContent; // Extract the date
-            // if (date.includes(", today")) {
-            //     date = date.replace(", today", ""); // Remove ", today" if it exists
-            // }
-            // // Remove the "X events, " prefix
-            // date = date.replace(/^\d+ events?, /, ""); // Remove "1 event, " or "0 events, "
-            // return date; // Return the cleaned date in the form "Sunday, 6 April"
             return normalizeDateString(day.textContent); // Normalize the date string
         });
         return [ activeView, dates ]; // Return the array of cleaned dates

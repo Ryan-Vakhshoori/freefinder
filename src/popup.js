@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     initializeSettings(); // Initialize default settings
-    fetchAvailability();
-
     chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration"], (data) => {
         if (data.startOfDay) {
             document.getElementById("startOfDay").value = data.startOfDay;
@@ -13,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("minSlotDuration").value = data.minSlotDuration;
         }
     });
+    fetchAvailability();
 });
 
 function initializeSettings() {
