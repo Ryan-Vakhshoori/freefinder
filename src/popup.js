@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    initializeSettings(); // Initialize default settings
     fetchAvailability();
 
     chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration"], (data) => {
@@ -13,6 +14,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+function initializeSettings() {
+    chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration"], (data) => {
+        const defaults = {
+            startOfDay: "00:00",
+            endOfDay: "23:59",
+            minSlotDuration: 1
+        };
+
+        const settingsToSet = {};
+
+        if (!data.startOfDay) {
+            settingsToSet.startOfDay = defaults.startOfDay;
+        }
+        if (!data.endOfDay) {
+            settingsToSet.endOfDay = defaults.endOfDay;
+        }
+        if (!data.minSlotDuration) {
+            settingsToSet.minSlotDuration = defaults.minSlotDuration;
+        }
+
+        if (Object.keys(settingsToSet).length > 0) {
+            chrome.storage.sync.set(settingsToSet);
+        }
+    });
+}
 
 document.getElementById("copyButton").addEventListener("click", () => {
     const copyButton = document.getElementById("copyButton");
@@ -42,7 +69,6 @@ function saveSettings() {
 
     // Save the times to Chrome storage
     chrome.storage.sync.set({ startOfDay, endOfDay, minSlotDuration }, () => {
-
         // Optionally fetch availability after saving
         fetchAvailability();
     });
@@ -78,7 +104,6 @@ function fetchAvailability() {
 
         chrome.tabs.sendMessage(activeTab.id, { action: "ping" }, (response) => {
             if (response && response.data === "pong") {
-                console.log("Content script is already injected.");
                 sendAvailabilityRequest(activeTab.id);
                 return;
             } else if (chrome.runtime.lastError) {
@@ -91,7 +116,6 @@ function fetchAvailability() {
                         if (chrome.runtime.lastError) {
                             console.error("Failed to inject content script:", chrome.runtime.lastError.message);
                         } else {
-                            console.log("Content script injected successfully.");
                             sendAvailabilityRequest(activeTab.id);
                         }
                     }
