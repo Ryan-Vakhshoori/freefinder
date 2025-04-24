@@ -1,9 +1,38 @@
 import { timeToMinutes, timeToMinutesMilitary, minutesToTime, extractDate, normalizeDateString } from "./utils.js"; // Import utility functions
 
-function extractAvailability(activeView, dates, callback) {
-    let events;
+function waitForNewGridCell(previousCells, timeout = 3000) {
+    return new Promise((resolve, reject) => {
+        const start = Date.now();
+        (function check() {
+            const gridCells = [...document.querySelectorAll('div[role="gridcell"]')];
+            const newCells = gridCells.filter(cell => !previousCells.includes(cell));
+            if (newCells.length > 0) {
+                return resolve(newCells[0]);
+            }
+            if (Date.now() - start > timeout) {
+                return reject(new Error("Timeout waiting for new gridcell"));
+            }
+            requestAnimationFrame(check);
+        })();
+    });
+}
+
+async function extractAvailability(activeView, dates, callback) {
+    let events = [];
     if (activeView == "MONTH") {
-        events = document.querySelectorAll("span.XuJrye:not([id])"); // Select calendar cells
+        const gridCells = document.querySelectorAll('div[role="gridcell"]');
+        for (let gridCell of gridCells) {
+            let buttonDiv = gridCell.querySelector('div.KF4T6b.KCIIIb');
+            if (buttonDiv) {
+                const oldCells = [...document.querySelectorAll('div[role="gridcell"]')];
+                buttonDiv.click();
+                gridCell = await waitForNewGridCell(oldCells); // Wait for the new gridcell to be visible
+            }
+            const spans = gridCell.querySelectorAll('span.XuJrye'); // Query for spans with class XuJrye within the gridcell
+            spans.forEach(span => {
+                events.push(span); // Append each span to the events array
+            });
+        }
     } else {
         events = document.querySelectorAll("div.XuJrye:not([id])"); // Select calendar cells
     }
@@ -30,7 +59,6 @@ function extractAvailability(activeView, dates, callback) {
         }
         eventTimes[eventDate].push({ start: eventStartTime, end: eventEndTime }); // Add the event times
     });
-    console.log("Event times:", eventTimes); // Log the event times
     let availableSlots = {};
     chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration"], (data) => {
         const startOfDay = timeToMinutesMilitary(data.startOfDay)
