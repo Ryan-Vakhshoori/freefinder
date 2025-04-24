@@ -37,17 +37,20 @@ function waitForGridCellClose(gridCell, timeout = 3000) {
     });
 }
 
+async function closeMoreEventsDialog() {
+    const hiddenDiv = document.querySelector('div.yDmH0d');
+    const closeButton = hiddenDiv.querySelector('div.pYTkkf-Bz112c-RLmnJb');
+    if (closeButton) {
+        const gridCell = hiddenDiv.querySelector('div[role="gridcell"]');
+        closeButton.click(); // Close the month view if it's open
+        await waitForGridCellClose(gridCell); // Wait for the grid cell to be removed
+    }
+}
+
 async function extractAvailability(activeView, dates, callback) {
     let events = [];
     if (activeView == "MONTH") {
-        const hiddenDiv = document.querySelector('div.yDmH0d');
-        const closeButton = hiddenDiv.querySelector('div.pYTkkf-Bz112c-RLmnJb');
-        if (closeButton) {
-            const gridCell = hiddenDiv.querySelector('div[role="gridcell"]');
-            closeButton.click(); // Close the month view if it's open
-            await waitForGridCellClose(gridCell); // Wait for the grid cell to be removed
-
-        }
+        await closeMoreEventsDialog(); // Close the "more events" dialogue if it's open
         const gridCells = document.querySelectorAll('div[role="gridcell"]');
         for (let gridCell of gridCells) {
             let buttonDiv = gridCell.querySelector('div.KF4T6b.KCIIIb');
