@@ -17,9 +17,37 @@ function waitForNewGridCell(previousCells, timeout = 3000) {
     });
 }
 
+function waitForGridCellClose(gridCell, timeout = 3000) {
+    return new Promise((resolve, reject) => {
+        const start = Date.now();
+        (function check() {
+            // If the gridCell is no longer in the DOM, resolve
+            if (!document.body.contains(gridCell)) {
+                return resolve();
+            }
+
+            // If timeout exceeded, reject
+            if (Date.now() - start > timeout) {
+                return reject(new Error("Timeout waiting for grid cell to be removed"));
+            }
+
+            // Keep checking on the next frame
+            requestAnimationFrame(check);
+        })();
+    });
+}
+
 async function extractAvailability(activeView, dates, callback) {
     let events = [];
     if (activeView == "MONTH") {
+        const hiddenDiv = document.querySelector('div.yDmH0d');
+        const closeButton = hiddenDiv.querySelector('div.pYTkkf-Bz112c-RLmnJb');
+        if (closeButton) {
+            const gridCell = hiddenDiv.querySelector('div[role="gridcell"]');
+            closeButton.click(); // Close the month view if it's open
+            await waitForGridCellClose(gridCell); // Wait for the grid cell to be removed
+
+        }
         const gridCells = document.querySelectorAll('div[role="gridcell"]');
         for (let gridCell of gridCells) {
             let buttonDiv = gridCell.querySelector('div.KF4T6b.KCIIIb');
