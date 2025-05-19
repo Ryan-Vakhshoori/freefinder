@@ -16,15 +16,17 @@ Install directly from the Chrome Web Store:
 [Availability Finder for Google Calendar](https://chromewebstore.google.com/detail/availability-finder-for-g/cocgggflifjnhegpnacnobohkmfmdfhe?authuser=0&hl=en-GB)
 
 **For development:**
-1. Download ZIP.
-2. Unzip the download.
-3. Open terminal in `gcal-availability-finder` directory.
-4. Run `npm install`.
-5. Run `npx webpack`.
-6. Open Google Chrome.
-7. Go to `chrome://extensions/`.
-8. Enable Developer mode.
-9. Click **Load unpacked** and select the unzipped directory as the extension directory.
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/ryanvakhshoori/gcal-availability-finder.git
+    ```
+2. Open terminal in the `gcal-availability-finder` directory.
+3. Run `npm install`.
+4. Run `npx webpack`.
+5. Open Google Chrome.
+6. Go to `chrome://extensions/`.
+7. Enable Developer mode.
+8. Click **Load unpacked** and select the project directory as the extension directory.
 
 ## Usage
 
