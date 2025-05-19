@@ -33,5 +33,3 @@ Install directly from the Chrome Web Store:
 1. Open Google Calendar in Chrome.
 2. Click the extension icon in the Chrome toolbar.
 3. View your available time slots and adjust settings as needed.
-
----
