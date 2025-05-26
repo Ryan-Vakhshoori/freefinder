@@ -258,6 +258,29 @@ function sendAvailabilityRequest(tabId) {
         dayDiv.appendChild(slotsDiv);
         availabilityDays.appendChild(dayDiv);
       });
+      // After document.getElementById("dateRange").textContent = response.data[1];
+      const copyAllButton = document.getElementById("copyAllButton");
+      copyAllButton.innerHTML = feather.icons.copy.toSvg({ width: 18, height: 18 });
+      copyAllButton.classList.remove("checking");
+      copyAllButton._isCheck = false;
+
+      copyAllButton.onclick = function () {
+        if (copyAllButton._isCheck) return;
+        // Gather all slots for all days
+        const allText = days.map(day => `${day.date}\n${day.slots.join("\n")}`).join("\n\n");
+        navigator.clipboard.writeText(allText);
+
+        copyAllButton.innerHTML = feather.icons.check.toSvg({ width: 18, height: 18 });
+        copyAllButton.classList.add("checking");
+        copyAllButton._isCheck = true;
+        if (copyAllButton._timeoutId) clearTimeout(copyAllButton._timeoutId);
+        copyAllButton._timeoutId = setTimeout(() => {
+          copyAllButton.innerHTML = feather.icons.copy.toSvg({ width: 18, height: 18 });
+          copyAllButton.classList.remove("checking");
+          copyAllButton._isCheck = false;
+          copyAllButton._timeoutId = null;
+        }, 1200);
+      };
       if (window.feather) {
         console.log("Feather icons found, replacing icons.");
         feather.replace();

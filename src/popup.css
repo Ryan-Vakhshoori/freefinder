@@ -1,57 +1,79 @@
-/* General Styles */
+/* ===== General Styles ===== */
 body {
   font-family: Arial, sans-serif;
   font-size: 14px;
   margin: 0;
   width: 360px;
   background: #121a27;
-  color: #fff;
+  color: #eff2f6;
   user-select: none;
-  -webkit-user-select: none; /* For Safari/Chrome */
-  -ms-user-select: none;     /* For IE/Edge */
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 textarea, input, button, label {
-  font-family: inherit; /* Match the font of the rest of the popup */
+  font-family: inherit;
   font-size: 14px;
-  box-sizing: border-box; /* Ensure padding and border are included in width */
+  box-sizing: border-box;
 }
 
-/* Textarea Styles */
-textarea {
-  width: 100%;
-  height: 120px;
-  resize: none;
-  border-radius: 4px;
-  padding: 8px;
-}
-
-/* Label Styles */
+/* ===== Labels ===== */
 label {
   display: block;
-  margin-top: 5px;
-  margin-bottom: 2.5px; /* Add margin for spacing */
+  margin-bottom: 5px;
 }
 
-/* Input Styles */
+/* ===== Inputs ===== */
 input {
   width: 100%;
-  padding: 6px;
-  margin-bottom: 5px; /* Add spacing below inputs */
+  padding: 5px;
+  background: #202733;
+  color: #eff2f6;
+  border: 1px solid #79808e;
+  border-radius: 4px;
+  transition: border-color 0.2s;
 }
 
-/* Time Inputs Container */
+input:hover {
+  border-color: #3b82f6;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: none;
+}
+
+/* Time input clock icon */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+input[type="time"]::-ms-input-placeholder,
+input[type="time"]::-moz-placeholder,
+input[type="time"]::placeholder {
+  color: #eff2f6;
+}
+
+/* ===== Containers ===== */
+#timeInputsContainer,
+#slotDurationContainer {
+  background: #202733;
+  margin: 10px 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border-bottom: 1px solid #000;
+}
+
 #timeInputsContainer {
   display: grid;
-  grid-template-columns: auto auto; /* Two columns for labels and inputs */
-  gap: 10px 20px; /* Row and column spacing */
-  align-items: center; /* Align items vertically */
+  grid-template-columns: auto auto;
+  gap: 10px 20px;
+  align-items: center;
 }
 
-/* Time Input Group */
 .timeInputGroup {
   display: flex;
-  flex-direction: column; /* Stack label and input vertically */
+  flex-direction: column;
 }
 
 .timeInputGroup label {
@@ -60,20 +82,28 @@ input {
 
 .timeInputGroup input {
   width: auto;
-  padding: 6px;
+  padding: 5px;
+}
+
+/* ===== Date Range ===== */
+#dateRangeContainer {
+  background: #202733;
+  padding: 20px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 #dateRange {
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 10px;
-  background-color: #202733;
+  color: #eff2f6;
 }
 
-/* Copy Buttons Styles */
+/* ===== Copy Buttons ===== */
 .copy-day-btn,
 .copy-slot-btn,
-.toggle-btn {
+.toggle-btn,
+#copyAllButton {
   background: none;
   border: none;
   padding: 2px;
@@ -94,52 +124,44 @@ input {
 
 .copy-day-btn svg,
 .copy-slot-btn svg,
-.toggle-btn svg {
-  display: block;
-  background: none;
-  border: none;
-  pointer-events: none;
-  color: #fff;
-  stroke: #fff;
+.toggle-btn svg,
+#copyAllButton svg {
+  color: #eff2f6;
+  stroke: #eff2f6;
   fill: none;
 }
 
 .copy-day-btn:hover svg,
 .copy-slot-btn:hover svg,
-.toggle-btn:hover svg {
+.toggle-btn:hover svg,
+#copyAllButton:hover svg {
   outline: 2px solid #3b82f6;
   border-radius: 4px;
-  outline-offset: 3px; /* Increase space between icon and outline */
+  outline-offset: 3px;
 }
 
 .copy-day-btn.checking svg,
-.copy-slot-btn.checking svg {
+.copy-slot-btn.checking svg,
+#copyAllButton.checking svg {
   outline: none !important;
-  color: #22c55e !important;   /* Green color for check icon */
-  stroke: #22c55e !important;  /* Green color for check icon */
+  color: #22c55e !important;
+  stroke: #22c55e !important;
 }
 
 .copy-day-btn.checking,
-.copy-slot-btn.checking {
+.copy-slot-btn.checking,
+#copyAllButton.checking {
   cursor: default !important;
 }
 
-/* Make <hr> span the full width of the popup */
-hr {
-  margin: 12px 0;
-  border: none;
-  border-top: 1px solid #3a424f;
-  width: 100%;
-  box-sizing: border-box;
-}
-
+/* ===== Day Components ===== */
 .day-component {
-  margin: 0 14px 8px 14px;
+  margin: 0 10px 10px;
   background: #202733;
   border-radius: 6px;
-  padding: 8px 10px; /* Decreased padding */
-  box-shadow: 0 1px 2px rgba(60, 60, 60, 0.04);
+  padding: 10px;
   cursor: pointer;
+  border-bottom: 1px solid #000;
 }
 
 .day-component:last-child {
@@ -164,18 +186,29 @@ hr {
   margin-bottom: 0;
 }
 
-/* Custom scrollbar for availabilityDays */
+/* ===== Day Header & Slots ===== */
+.day-header {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.day-header + .day-slots {
+  border-top: 1px solid #3a424f;
+  margin-top: 5px;
+  padding-top: 5px;
+}
+
+/* ===== Scrollbar Styles ===== */
 #availabilityDays {
   max-height: 300px;
   overflow-y: auto;
-  scrollbar-color: #79808e #121a27; /* thumb and track */
+  scrollbar-color: #79808e #121a27;
   border-top: 1px solid #525b6a;
   border-bottom: 1px solid #525b6a;
-  padding: 12px 0;
+  padding: 10px 0;
   box-sizing: content-box;
 }
 
-/* For Webkit browsers */
 #availabilityDays::-webkit-scrollbar {
   width: 8px;
   background: #121a27;
@@ -190,14 +223,24 @@ hr {
   background: #121a27;
 }
 
-.day-header {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  /* Remove any existing spacing */
+/* ===== Horizontal Rule ===== */
+hr {
+  border: none;
+  border-top: 1px solid #3a424f;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.day-header + .day-slots {
-  border-top: 1px solid #3a424f;
-  margin-top: 4px;
-  padding-top: 4px;
+#minSlotDuration::-webkit-inner-spin-button,
+#minSlotDuration::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#minSlotDuration {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+#unsupportedMessage {
+  margin: 10px;
 }
