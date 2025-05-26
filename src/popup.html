@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Availability Finder for Google Calendar</title>
-    <script src="../dist/popup.js" defer></script>
-    <link rel="stylesheet" href="popup.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Availability Finder for Google Calendar</title>
+  <script src="../dist/popup.js" defer></script>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-    <div id="availabilityContainer">
-        <h2>Your Availability</h2>
-        <div id="dateRange"></div>
-        <textarea id="availabilityText" rows="10" cols="30" readonly></textarea>
-        <button id="copyButton">Copy</button>
-        <div id="timeInputsContainer">
-            <div class="timeInputGroup">
-                <label for="startOfDay">Day start time</label>
-                <input type="time" id="startOfDay" value="00:00">
-            </div>
-            <div class="timeInputGroup">
-                <label for="endOfDay">Day end time</label>
-                <input type="time" id="endOfDay" value="23:59">
-            </div>
-        </div>
-        <label for="minSlotDuration">Minimum slot duration (minutes)</label>
-        <input type="number" id="minSlotDuration" value="15" min="1">
+  <div id="availabilityContainer">
+    <div id="dateRange"></div>
+    <div id="availabilityDays" style="max-height: 300px; overflow-y: auto;"></div>
+    <button id="copyButton">Copy</button>
+    <div id="timeInputsContainer">
+      <div class="timeInputGroup">
+        <label for="startOfDay">Day start time</label>
+        <input type="time" id="startOfDay" value="00:00">
+      </div>
+      <div class="timeInputGroup">
+        <label for="endOfDay">Day end time</label>
+        <input type="time" id="endOfDay" value="23:59">
+      </div>
     </div>
-    <p id="unsupportedMessage">
-        Unsupported website detected. Please open Google Calendar.
-    </p> 
+    <label for="minSlotDuration">Minimum slot duration (minutes)</label>
+    <input type="number" id="minSlotDuration" value="15" min="1">
+  </div>
+  <p id="unsupportedMessage">
+    Unsupported website detected. Please open Google Calendar.
+  </p> 
 </body>
 </html>

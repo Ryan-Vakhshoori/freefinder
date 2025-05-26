@@ -17,9 +17,9 @@ Install directly from the Chrome Web Store:
 
 **For development:**
 1. Clone the repository:
-    ```sh
-    git clone https://github.com/ryanvakhshoori/gcal-availability-finder.git
-    ```
+  ```sh
+  git clone https://github.com/ryanvakhshoori/gcal-availability-finder.git
+  ```
 2. Open terminal in the `gcal-availability-finder` directory.
 3. Run `npm install`.
 4. Run `npx webpack`.

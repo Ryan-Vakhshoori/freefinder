@@ -1,84 +1,203 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    margin: 10px;
-    width: 280px; /* Set a fixed width for the popup */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  margin: 0;
+  width: 360px;
+  background: #121a27;
+  color: #fff;
+  user-select: none;
+  -webkit-user-select: none; /* For Safari/Chrome */
+  -ms-user-select: none;     /* For IE/Edge */
 }
 
 textarea, input, button, label {
-    font-family: inherit; /* Match the font of the rest of the popup */
-    font-size: 14px;
-    box-sizing: border-box; /* Ensure padding and border are included in width */
+  font-family: inherit; /* Match the font of the rest of the popup */
+  font-size: 14px;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
 }
 
 /* Textarea Styles */
 textarea {
-    width: 100%;
-    height: 120px;
-    resize: none;
-    border-radius: 4px;
-    padding: 8px;
-}
-
-/* Button Styles */
-button {
-    width: 100%; /* Full width button */
-    padding: 10px;
-    margin: 5px 0; /* Add margin for spacing */
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
+  width: 100%;
+  height: 120px;
+  resize: none;
+  border-radius: 4px;
+  padding: 8px;
 }
 
 /* Label Styles */
 label {
-    display: block;
-    margin-top: 5px;
-    margin-bottom: 2.5px; /* Add margin for spacing */
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 2.5px; /* Add margin for spacing */
 }
 
 /* Input Styles */
 input {
-    width: 100%;
-    padding: 6px;
-    margin-bottom: 5px; /* Add spacing below inputs */
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 5px; /* Add spacing below inputs */
 }
 
 /* Time Inputs Container */
 #timeInputsContainer {
-    display: grid;
-    grid-template-columns: auto auto; /* Two columns for labels and inputs */
-    gap: 10px 20px; /* Row and column spacing */
-    align-items: center; /* Align items vertically */
+  display: grid;
+  grid-template-columns: auto auto; /* Two columns for labels and inputs */
+  gap: 10px 20px; /* Row and column spacing */
+  align-items: center; /* Align items vertically */
 }
 
 /* Time Input Group */
 .timeInputGroup {
-    display: flex;
-    flex-direction: column; /* Stack label and input vertically */
+  display: flex;
+  flex-direction: column; /* Stack label and input vertically */
 }
 
 .timeInputGroup label {
-    text-align: left;
+  text-align: left;
 }
 
 .timeInputGroup input {
-    width: auto;
-    padding: 6px;
-}
-
-/* Availability Section */
-#availabilityContainer h2 {
-    margin: 5px 0;
+  width: auto;
+  padding: 6px;
 }
 
 #dateRange {
-    margin: 5px 0;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 10px;
+  background-color: #202733;
+}
+
+/* Copy Buttons Styles */
+.copy-day-btn,
+.copy-slot-btn,
+.toggle-btn {
+  background: none;
+  border: none;
+  padding: 2px;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: none;
+  outline: none;
+}
+
+.copy-day-btn:focus,
+.copy-slot-btn:focus,
+.toggle-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.copy-day-btn svg,
+.copy-slot-btn svg,
+.toggle-btn svg {
+  display: block;
+  background: none;
+  border: none;
+  pointer-events: none;
+  color: #fff;
+  stroke: #fff;
+  fill: none;
+}
+
+.copy-day-btn:hover svg,
+.copy-slot-btn:hover svg,
+.toggle-btn:hover svg {
+  outline: 2px solid #3b82f6;
+  border-radius: 4px;
+  outline-offset: 3px; /* Increase space between icon and outline */
+}
+
+.copy-day-btn.checking svg,
+.copy-slot-btn.checking svg {
+  outline: none !important;
+  color: #22c55e !important;   /* Green color for check icon */
+  stroke: #22c55e !important;  /* Green color for check icon */
+}
+
+.copy-day-btn.checking,
+.copy-slot-btn.checking {
+  cursor: default !important;
+}
+
+/* Make <hr> span the full width of the popup */
+hr {
+  margin: 12px 0;
+  border: none;
+  border-top: 1px solid #3a424f;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.day-component {
+  margin: 0 14px 8px 14px;
+  background: #202733;
+  border-radius: 6px;
+  padding: 8px 10px; /* Decreased padding */
+  box-shadow: 0 1px 2px rgba(60, 60, 60, 0.04);
+  cursor: pointer;
+}
+
+.day-component:last-child {
+  margin-bottom: 0;
+}
+
+.day-component:hover {
+  background: #1a274e;
+}
+
+.day-component:has(.copy-day-btn:hover),
+.day-component:has(.copy-slot-btn:hover),
+.day-component:has(.toggle-btn:hover) {
+  background: #202733 !important;
+}
+
+.day-component .slot {
+  margin-bottom: 5px;
+}
+
+.day-component .slot:last-child {
+  margin-bottom: 0;
+}
+
+/* Custom scrollbar for availabilityDays */
+#availabilityDays {
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-color: #79808e #121a27; /* thumb and track */
+  border-top: 1px solid #525b6a;
+  border-bottom: 1px solid #525b6a;
+  padding: 12px 0;
+  box-sizing: content-box;
+}
+
+/* For Webkit browsers */
+#availabilityDays::-webkit-scrollbar {
+  width: 8px;
+  background: #121a27;
+}
+
+#availabilityDays::-webkit-scrollbar-thumb {
+  background: #79808e;
+  border-radius: 4px;
+}
+
+#availabilityDays::-webkit-scrollbar-track {
+  background: #121a27;
+}
+
+.day-header {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  /* Remove any existing spacing */
+}
+
+.day-header + .day-slots {
+  border-top: 1px solid #3a424f;
+  margin-top: 4px;
+  padding-top: 4px;
 }
