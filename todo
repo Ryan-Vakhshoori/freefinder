@@ -1,7 +1,6 @@
 -implement buffer option that offsets available time slot by buffer amount from previous event
 -provide option to use ai to convert availability to sentences
 -dark mode
--instead of text area for availability, make each slot a component so that each slot can be copied individually. slots for date can be copied together. copy availability for all dates
 -info bubbles that provide description on hover e.g. minimum slot duration explanations
 -hide/show day start time, end time, etc.
 -vertically expandable textarea for availability
