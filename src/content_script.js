@@ -1,4 +1,5 @@
-import { timeToMinutes, timeToMinutesMilitary, minutesToTime, extractDate, normalizeDateString } from "./utils.js"; // Import utility functions
+import { timeToMinutes, timeToMinutesMilitary, minutesToTime } from "./utils/timeUtils.js"; // Import time utility functions
+import { extractDate, normalizeDateString } from "./utils/dateUtils.js"; // Import date utility functions
 
 function waitForNewGridCell(previousCells, timeout = 3000) {
   return new Promise((resolve, reject) => {
