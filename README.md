@@ -1,4 +1,4 @@
-# Availability Finder for Google Calendar
+# FreeFinder
 
 A Chrome extension that extracts and displays your availability from Google Calendar, making it easy to find free time slots for scheduling.
 
@@ -13,14 +13,14 @@ A Chrome extension that extracts and displays your availability from Google Cale
 
 **Recommended:**  
 Install directly from the Chrome Web Store:  
-[Availability Finder for Google Calendar](https://chromewebstore.google.com/detail/availability-finder-for-g/cocgggflifjnhegpnacnobohkmfmdfhe?authuser=0&hl=en-GB)
+[FreeFinder](https://chromewebstore.google.com/detail/availability-finder-for-g/cocgggflifjnhegpnacnobohkmfmdfhe?authuser=0&hl=en-GB)
 
 **For development:**
 1. Clone the repository:
   ```sh
-  git clone https://github.com/ryanvakhshoori/gcal-availability-finder.git
+  git clone https://github.com/Ryan-Vakhshoori/freefinder.git
   ```
-2. Open terminal in the `gcal-availability-finder` directory.
+2. Open terminal in the `freefinder` directory.
 3. Run `npm install`.
 4. Run `npx webpack`.
 5. Open Google Chrome.
@@ -31,5 +31,5 @@ Install directly from the Chrome Web Store:
 ## Usage
 
 1. Open Google Calendar in Chrome.
-2. Click the extension icon in the Chrome toolbar.
+2. Click the FreeFinder extension icon in the Chrome toolbar.
 3. View your available time slots and adjust settings as needed.
