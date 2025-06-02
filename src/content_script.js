@@ -50,6 +50,7 @@ async function closeMoreEventsDialog() {
 
 async function extractAvailability(activeView, dates, callback) {
   let events = [];
+  const allDayEvents = document.querySelectorAll('div.KF4T6b.jKgTF.QGRmIf > span.XuJrye');
   if (activeView == "MONTH") {
     await closeMoreEventsDialog(); // Close the "more events" dialogue if it's open
     const gridCells = document.querySelectorAll('div[role="gridcell"]');
@@ -91,6 +92,21 @@ async function extractAvailability(activeView, dates, callback) {
     }
     eventTimes[eventDate].push({ start: eventStartTime, end: eventEndTime }); // Add the event times
   });
+  // Process all-day events
+  allDayEvents.forEach(event => {
+    const eventText = event.textContent;
+    if (eventText.includes("Holidays")) {
+      return; // Skip holidays as they are not considered all-day events
+    }
+    if (eventText.includes("All day")) {
+      let eventDate = extractDate(eventText); // Extract the date from the event text
+      if (!eventTimes[eventDate]) {
+        eventTimes[eventDate] = []; // Initialize an array for the date if it doesn't exist
+      }
+      // Add the all-day event with a start time of "00:00" and an end time of "23:59"
+      eventTimes[eventDate].push({ start: "12am", end: "11:59pm" });
+    }
+  });
   let availableSlots = {};
   chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration"], (data) => {
     const startOfDay = timeToMinutesMilitary(data.startOfDay)
@@ -101,10 +117,21 @@ async function extractAvailability(activeView, dates, callback) {
     });
 
     for (let date in availableSlots) {
-      let normalizedDate = date.split(",")[1].trim(); // Remove the day of the week (e.g., "Sunday, 6 April" -> "6 April")
+      let normalizedDate = date.split(",")[1].trim();
+
+      // If there is an all-day event, skip adding any available slots for this date
+      const eventsForDate = eventTimes[normalizedDate] || [];
+      const hasAllDayEvent = eventsForDate.some(
+        event => event.start === "12am" && event.end === "11:59pm"
+      );
+      if (hasAllDayEvent) {
+        // No available slots for this day
+        continue;
+      }
+
       let prevEnd = startOfDay;
 
-      if (!eventTimes[normalizedDate]) {
+      if (!eventsForDate.length) {
         const slotDuration = endOfDay - prevEnd;
         if (slotDuration >= minSlotDuration) {
           availableSlots[date].push({ start: minutesToTime(prevEnd), end: minutesToTime(endOfDay) });
@@ -112,7 +139,7 @@ async function extractAvailability(activeView, dates, callback) {
         continue;
       }
 
-      for (let event of eventTimes[normalizedDate]) {
+      for (let event of eventsForDate) {
         let eventStart = timeToMinutes(event.start);
 
         if (eventStart > prevEnd) {
@@ -124,11 +151,10 @@ async function extractAvailability(activeView, dates, callback) {
           }
         }
 
-        prevEnd = Math.max(prevEnd, timeToMinutes(event.end)); // Update prevEnd to the end of the current event
+        prevEnd = Math.max(prevEnd, timeToMinutes(event.end));
       }
 
       const slotDuration = endOfDay - prevEnd;
-      // Check for availability after the last event, but ensure it ends at endOfDay
       if (prevEnd < endOfDay && slotDuration >= minSlotDuration) {
         availableSlots[date].push({ start: minutesToTime(prevEnd), end: minutesToTime(endOfDay) });
       }

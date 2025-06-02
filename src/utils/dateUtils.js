@@ -7,7 +7,7 @@ export function extractDate(eventString) {
   // Match patterns like:
   // - April 16, 2025
   // - 17 April 2025
-  const dateRegex = /(\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}|\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4})$/i;
+  const dateRegex = /(\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},?\s+\d{4}|\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4})/i;
 
   const match = eventString.match(dateRegex);
   if (!match) return null;
