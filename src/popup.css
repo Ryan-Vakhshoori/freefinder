@@ -1,6 +1,6 @@
 /* ===== General Styles ===== */
 body {
-  font-family: Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
   font-size: 14px;
   margin: 0;
   width: 360px;
@@ -34,13 +34,10 @@ input {
   transition: border-color 0.2s;
 }
 
-input:hover {
-  border-color: #3b82f6;
-}
-
+input:hover,
 input:focus {
-  outline: none;
   border-color: #3b82f6;
+  outline: none;
   box-shadow: none;
 }
 
@@ -48,8 +45,6 @@ input:focus {
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
-input[type="time"]::-ms-input-placeholder,
-input[type="time"]::-moz-placeholder,
 input[type="time"]::placeholder {
   color: #eff2f6;
 }
@@ -87,8 +82,7 @@ input[type="time"]::placeholder {
 
 /* ===== Date Range ===== */
 #dateRangeContainer {
-  background: #202733;
-  padding: 20px 20px;
+  background: #121a27;
   font-size: 16px;
   font-weight: bold;
   display: flex;
@@ -97,13 +91,31 @@ input[type="time"]::placeholder {
 
 #dateRange {
   color: #eff2f6;
+  padding: 12px 12px;
+  margin: 10px 10px;
+  background: #202733;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid #000;
+}
+
+#dateRange:hover {
+  background: #1a274e;
+}
+
+#dateRange.selected {
+  background: #16297a;
+}
+
+#dateRangeContainer.selected {
+  background: #254e8e;
+  border-radius: 4px;
 }
 
 /* ===== Copy Buttons ===== */
-.copy-day-btn,
-.copy-slot-btn,
-.toggle-btn,
-#copyAllButton {
+
+.toggle-btn {
   background: none;
   border: none;
   padding: 2px;
@@ -115,71 +127,37 @@ input[type="time"]::placeholder {
   outline: none;
 }
 
-.copy-day-btn:focus,
-.copy-slot-btn:focus,
 .toggle-btn:focus {
   outline: none;
   box-shadow: none;
 }
 
-.copy-day-btn svg,
-.copy-slot-btn svg,
-.toggle-btn svg,
-#copyAllButton svg {
+
+.toggle-btn svg {
   color: #eff2f6;
   stroke: #eff2f6;
   fill: none;
 }
 
-.copy-day-btn:hover svg,
-.copy-slot-btn:hover svg,
-.toggle-btn:hover svg,
-#copyAllButton:hover svg {
+.toggle-btn:hover svg {
   outline: 2px solid #3b82f6;
   border-radius: 4px;
   outline-offset: 3px;
 }
 
-.copy-day-btn.checking svg,
-.copy-slot-btn.checking svg,
-#copyAllButton.checking svg {
-  outline: none !important;
-  color: #22c55e !important;
-  stroke: #22c55e !important;
-}
-
-.copy-day-btn.checking,
-.copy-slot-btn.checking,
-#copyAllButton.checking {
-  cursor: default !important;
-}
-
 /* ===== Day Components ===== */
 .day-component {
   margin: 0 10px 10px;
-  background: #202733;
   border-radius: 6px;
-  padding: 10px;
   cursor: pointer;
-  border-bottom: 1px solid #000;
 }
 
 .day-component:last-child {
   margin-bottom: 0;
 }
 
-.day-component:hover {
-  background: #1a274e;
-}
-
-.day-component:has(.copy-day-btn:hover),
-.day-component:has(.copy-slot-btn:hover),
-.day-component:has(.toggle-btn:hover) {
-  background: #202733 !important;
-}
-
 .day-component .slot {
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .day-component .slot:last-child {
@@ -188,24 +166,34 @@ input[type="time"]::placeholder {
 
 /* ===== Day Header & Slots ===== */
 .day-header {
-  margin-bottom: 0;
-  padding-bottom: 0;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  background: #202733;
+  border-radius: 4px;
+  transition: background 0.2s;
+  border-bottom: 1px solid #000;
+}
+
+.day-header:hover {
+  background: #1a274e;
+}
+
+.day-header.selected {
+  background: #16297a;
+  border-radius: 4px;
 }
 
 .day-header .right-controls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 3px;
 }
 
-.day-header + .day-slots {
-  border-top: 1px solid #3a424f;
-  margin-top: 5px;
-  padding-top: 5px;
+.day-header + .day-slots .slot:first-child {
+  margin-top: 8px;
 }
 
 /* ===== Scrollbar Styles ===== */
@@ -241,6 +229,7 @@ hr {
   box-sizing: border-box;
 }
 
+/* ===== Inputs: Number Spin Buttons ===== */
 #minSlotDuration::-webkit-inner-spin-button,
 #minSlotDuration::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -251,20 +240,36 @@ hr {
   -moz-appearance: textfield; /* Firefox */
 }
 
+/* ===== Misc ===== */
 #unsupportedMessage {
   margin: 10px;
 }
 
+/* ===== Slot Styles ===== */
 .slot {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 8px;
+  padding: 13px 10px 13px 10px;
+  background: #202733;
+  border-radius: 4px;
+  text-align: center;
+  transition: background 0.2s;
+  border-bottom: 1px solid #000;
 }
 
-.day-slots {
-  display: block;
+.slot:hover {
+  background: #1a274e;
 }
-.day-slots.collapsed {
-  display: none;
+
+.slot.selected {
+  background: #16297a;
+  border-radius: 4px;
+}
+
+/* ===== Select All Styles ===== */
+.select-all-container.selected {
+  background: #254e8e;
+  border-radius: 4px;
 }

@@ -97,17 +97,6 @@ function sendAvailabilityRequest(tabId) {
       document.getElementById("dateRange").textContent = response.data[1];
       const days = Array.isArray(response.data[0]) ? response.data[0] : parseAvailability(response.data[0]);
       renderAvailability(days);
-
-      // Copy All button
-      const copyAllButton = document.getElementById("copyAllButton");
-      copyAllButton.innerHTML = feather.icons.copy.toSvg({ width: 18, height: 18 });
-      copyAllButton.classList.remove("checking");
-      copyAllButton._isCheck = false;
-
-      copyAllButton.onclick = function () {
-        const allText = days.map(day => `${day.date}\n${day.slots.join("\n")}`).join("\n\n");
-        copyWithFeedback(copyAllButton, allText, 18);
-      };
     } else {
       console.log("No response from content script.");
     }
