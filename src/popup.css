@@ -81,12 +81,18 @@ input[type="time"]::placeholder {
 }
 
 /* ===== Date Range ===== */
-#dateRangeContainer {
+#headerContainer {
   background: #121a27;
   font-size: 16px;
   font-weight: bold;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Add this line */
+  width: 100%;                   /* Ensure full width */
+}
+
+#settingsContainer {
+  margin: 16.5px 0 16.5px 10px;
 }
 
 #dateRange {
@@ -106,11 +112,6 @@ input[type="time"]::placeholder {
 
 #dateRange.selected {
   background: #16297a;
-}
-
-#dateRangeContainer.selected {
-  background: #254e8e;
-  border-radius: 4px;
 }
 
 /* ===== Copy Buttons ===== */
@@ -272,4 +273,38 @@ hr {
 .select-all-container.selected {
   background: #254e8e;
   border-radius: 4px;
+}
+
+/* ===== Settings Button ===== */
+.settings-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  margin-left: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: background 0.15s;
+  margin-right: 10px;
+}
+
+.settings-btn:hover {
+  background: #1a274e;
+}
+
+.settings-btn:active {
+  background: #16297a;
+}
+
+.settings-btn svg {
+  display: block;
+}
+
+#settingsContainer {
+  display: none;
+}
+
+#settingsContainer.open {
+  display: block;
 }

@@ -1,6 +1,5 @@
 import feather from 'feather-icons';
 import { parseAvailability } from './utils/availabilityUtils.js';
-import { copyWithFeedback } from './utils/clipboardUtils.js';
 import { initializeSettings } from './utils/settings.js';
 import { renderAvailability } from './utils/availabilityUI.js';
 
@@ -18,6 +17,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   fetchAvailability();
+
+  // Replace the settings button SVG with a Feather icon dynamically
+  const settingsBtn = document.getElementById("settingsBtn");
+  if (settingsBtn) {
+    settingsBtn.innerHTML = feather.icons.settings.toSvg({ width: 25, height: 25, stroke: "#eff2f6" });
+  }
+
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) {
+    backBtn.innerHTML = feather.icons['arrow-left'].toSvg({ width: 22, height: 22, stroke: "#eff2f6" });
+    backBtn.addEventListener("click", () => {
+      document.getElementById("settingsContainer").classList.remove("open");
+      document.getElementById("availabilityContainer").style.display = "block";
+    });
+  }
+});
+
+document.getElementById("settingsBtn").addEventListener("click", () => {
+  console.log("Settings button clicked");
+  availabilityContainer.style.display = "none";
+  const panel = document.getElementById("settingsContainer");
+  panel.classList.toggle("open");
 });
 
 function saveSettings() {
@@ -102,4 +123,3 @@ function sendAvailabilityRequest(tabId) {
     }
   });
 }
-

@@ -63,9 +63,9 @@ export function renderAvailability(days) {
   selectedSlots = [];
 
   // --- Select All: Use dateRange ---
-  const dateRangeContainer = document.getElementById("dateRangeContainer");
+  const headerContainer = document.getElementById("headerContainer");
   const dateRange = document.getElementById("dateRange");
-  dateRangeContainer.style.cursor = "default";
+  headerContainer.style.cursor = "default";
   dateRange.style.cursor = "pointer";
 
   // Track all slot divs for select all logic
