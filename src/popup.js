@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     initializeSettings();
-    chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration", "bufferBeforeEvents"], (data) => {
+    chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration", "bufferBeforeEvents", "bufferAfterEvents"], (data) => {
       if (data.startOfDay) {
         document.getElementById("startOfDay").value = data.startOfDay;
       }
@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (data.bufferBeforeEvents) {
         document.getElementById("bufferBeforeEvents").value = data.bufferBeforeEvents;
+      }
+      if (data.bufferAfterEvents) {
+        document.getElementById("bufferAfterEvents").value = data.bufferAfterEvents;
       }
     });
     fetchAvailability();
@@ -66,8 +69,9 @@ function saveSettings() {
   const endOfDay = document.getElementById("endOfDay").value;
   const minSlotDuration = parseInt(document.getElementById("minSlotDuration").value, 10);
   const bufferBeforeEvents = parseInt(document.getElementById("bufferBeforeEvents").value, 10) || 0;
+  const bufferAfterEvents = parseInt(document.getElementById("bufferAfterEvents").value, 10) || 0;
 
-  chrome.storage.sync.set({ startOfDay, endOfDay, minSlotDuration, bufferBeforeEvents }, () => {
+  chrome.storage.sync.set({ startOfDay, endOfDay, minSlotDuration, bufferBeforeEvents, bufferAfterEvents }, () => {
     fetchAvailability();
   });
 }
@@ -76,6 +80,7 @@ document.getElementById("startOfDay").addEventListener("input", saveSettings);
 document.getElementById("endOfDay").addEventListener("input", saveSettings);
 document.getElementById("minSlotDuration").addEventListener("input", saveSettings);
 document.getElementById("bufferBeforeEvents").addEventListener("input", saveSettings);
+document.getElementById("bufferAfterEvents").addEventListener("input", saveSettings);
 
 export function fetchAvailability() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {

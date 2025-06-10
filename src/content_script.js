@@ -108,12 +108,18 @@ async function extractAvailability(activeView, dates, callback) {
     }
   });
   let availableSlots = {};
-  chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration", "bufferBeforeEvents"], (data) => {
+  chrome.storage.sync.get([
+    "startOfDay",
+    "endOfDay",
+    "minSlotDuration",
+    "bufferBeforeEvents",
+    "bufferAfterEvents"
+  ], (data) => {
     const startOfDay = timeToMinutesMilitary(data.startOfDay);
     const endOfDay = timeToMinutesMilitary(data.endOfDay);
     const minSlotDuration = data.minSlotDuration;
-    const buffer = parseInt(data.bufferBeforeEvents, 10) || 0;
-    console.log(buffer);
+    const bufferBefore = parseInt(data.bufferBeforeEvents, 10) || 0;
+    const bufferAfter = parseInt(data.bufferAfterEvents, 10) || 0;
     dates.forEach(date => {
       availableSlots[date] = [];
     });
@@ -127,8 +133,10 @@ async function extractAvailability(activeView, dates, callback) {
       if (hasAllDayEvent) continue;
 
       let prevEnd = startOfDay;
+      let isFirstSlot = true;
 
       if (!eventsForDate.length) {
+        // No buffer for all-day slot
         const slotDuration = endOfDay - prevEnd;
         if (slotDuration >= minSlotDuration) {
           availableSlots[date].push({ start: minutesToTime(prevEnd), end: minutesToTime(endOfDay) });
@@ -139,22 +147,32 @@ async function extractAvailability(activeView, dates, callback) {
       for (let event of eventsForDate) {
         let eventStart = timeToMinutes(event.start);
 
-        // Apply buffer before events (but not before end of day)
-        const slotEndWithBuffer = Math.max(prevEnd, Math.min(eventStart, endOfDay) - buffer);
-        const slotDuration = slotEndWithBuffer - prevEnd;
-        if (prevEnd < slotEndWithBuffer && slotDuration >= minSlotDuration) {
-          availableSlots[date].push({ start: minutesToTime(prevEnd), end: minutesToTime(slotEndWithBuffer) });
+        // Only apply bufferAfter to slots after the first slot
+        let slotStartWithBuffer = prevEnd;
+        if (!isFirstSlot) {
+          slotStartWithBuffer += bufferAfter;
+        }
+        let slotEndWithBuffer = Math.max(slotStartWithBuffer, Math.min(eventStart, endOfDay) - bufferBefore);
+        const slotDuration = slotEndWithBuffer - slotStartWithBuffer;
+        if (slotStartWithBuffer < slotEndWithBuffer && slotDuration >= minSlotDuration) {
+          availableSlots[date].push({ start: minutesToTime(slotStartWithBuffer), end: minutesToTime(slotEndWithBuffer) });
         }
 
         prevEnd = Math.max(prevEnd, timeToMinutes(event.end));
+        isFirstSlot = false;
       }
 
-      // For the last slot of the day, do NOT apply buffer
-      const slotDuration = endOfDay - prevEnd;
-      if (prevEnd < endOfDay && slotDuration >= minSlotDuration) {
-        availableSlots[date].push({ start: minutesToTime(prevEnd), end: minutesToTime(endOfDay) });
+      // For the last slot of the day, do NOT apply bufferBeforeEvents, but DO apply bufferAfterEvents (unless it's the first slot)
+      let slotStartWithBuffer = prevEnd;
+      if (!isFirstSlot) {
+        slotStartWithBuffer += bufferAfter;
+      }
+      const slotDuration = endOfDay - slotStartWithBuffer;
+      if (slotStartWithBuffer < endOfDay && slotDuration >= minSlotDuration) {
+        availableSlots[date].push({ start: minutesToTime(slotStartWithBuffer), end: minutesToTime(endOfDay) });
       }
     }
+    // console.log("Available slots:", availableSlots); // Log the available slots for debugging
 
     // Convert availableSlots to a readable format
     const formattedSlots = Object.entries(availableSlots)

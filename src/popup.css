@@ -168,6 +168,14 @@ input[type="time"]::placeholder {
   margin-bottom: 0;
 }
 
+.settingsCard .settingInput {
+  margin-bottom: 10px;
+}
+
+.settingsCard .settingInput:last-child {
+  margin-bottom: 0;
+}
+
 /* ===== Day Header & Slots ===== */
 .day-header {
   padding: 10px;

@@ -37,8 +37,14 @@
       <p id="settingsText">Settings</p>
     </div>
     <div class="settingsCard">
-      <label for="bufferBeforeEvents">Buffer before events (minutes)</label>
-      <input type="number" id="bufferBeforeEvents" class="numberInput" value="0" min="0">
+      <div class="settingInput">
+        <label for="bufferBeforeEvents">Buffer before events (minutes)</label>
+        <input type="number" id="bufferBeforeEvents" class="numberInput" value="0" min="0">
+      </div>
+      <div class="settingInput">
+        <label for="bufferAfterEvents">Buffer after events (minutes)</label>
+        <input type="number" id="bufferAfterEvents" class="numberInput" value="0" min="0">
+      </div>
     </div>
     <!-- ...rest of settings content... -->
   </div>

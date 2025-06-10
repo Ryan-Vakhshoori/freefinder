@@ -1,6 +1,6 @@
 -implement buffer option that offsets available time slot by buffer amount from previous event
 -provide option to use ai to convert availability to sentences
--dark mode
 -info bubbles that provide description on hover e.g. minimum slot duration explanations
 -hide/show day start time, end time, etc.
--vertically expandable textarea for availability
+-organize time slots into two columns
+-add time zones
