@@ -20,6 +20,9 @@ textarea, input, button, label {
 /* ===== Labels ===== */
 label {
   display: block;
+}
+
+.textLabel {
   margin-bottom: 5px;
 }
 
@@ -320,7 +323,11 @@ hr {
   display: block;
 }
 
-#settingsText {
+.settingsText {
+  margin: 0;
+}
+
+.day-header {
   margin: 0px;
 }
 
@@ -330,4 +337,34 @@ hr {
 
 #availabilityContainer.hidden {
   display: none;
+}
+
+#pointIntervalSetting {
+  display: none;
+}
+
+#pointIntervalSetting.open {
+  display: block;
+}
+
+.radioInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  padding: 5px 0 5px;
+}
+
+input[type="radio"] {
+  width: auto;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+input[type="radio"]:hover {
+  cursor: pointer;
+}
+
+#pointIntervalSetting {
+  margin-top: 5px;
 }

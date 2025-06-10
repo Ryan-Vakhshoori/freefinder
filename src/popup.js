@@ -1,5 +1,5 @@
 import feather from 'feather-icons';
-import { parseAvailability } from './utils/availabilityUtils.js';
+import { slotsToPoints } from './utils/availabilityUtils.js';
 import { initializeSettings } from './utils/settings.js';
 import { renderAvailability } from './utils/availabilityUI.js';
 
@@ -21,7 +21,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     initializeSettings();
-    chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration", "bufferBeforeEvents", "bufferAfterEvents"], (data) => {
+    chrome.storage.sync.get([
+      "startOfDay",
+      "endOfDay",
+      "minSlotDuration",
+      "bufferBeforeEvents",
+      "bufferAfterEvents",
+      "availabilityFormat",
+      "pointInterval"
+    ], (data) => {
       if (data.startOfDay) {
         document.getElementById("startOfDay").value = data.startOfDay;
       }
@@ -36,6 +44,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (data.bufferAfterEvents) {
         document.getElementById("bufferAfterEvents").value = data.bufferAfterEvents;
+      }
+      // Set the radio button based on saved availabilityFormat
+      if (data.availabilityFormat === "points") {
+        document.getElementById("formatPoints").checked = true;
+        document.getElementById("pointIntervalSetting").classList.add("open");
+      } else {
+        document.getElementById("formatRanges").checked = true;
+        document.getElementById("pointIntervalSetting").classList.remove("open");
+      }
+      if (data.pointInterval) {
+        document.getElementById("pointInterval").value = data.pointInterval;
       }
     });
     fetchAvailability();
@@ -70,10 +89,15 @@ function saveSettings() {
   const minSlotDuration = parseInt(document.getElementById("minSlotDuration").value, 10);
   const bufferBeforeEvents = parseInt(document.getElementById("bufferBeforeEvents").value, 10) || 0;
   const bufferAfterEvents = parseInt(document.getElementById("bufferAfterEvents").value, 10) || 0;
+  const availabilityFormat = document.querySelector('input[name="availabilityFormat"]:checked')?.id === "formatPoints" ? "points" : "ranges";
+  const pointInterval = parseInt(document.getElementById("pointInterval").value, 10) || 30;
 
-  chrome.storage.sync.set({ startOfDay, endOfDay, minSlotDuration, bufferBeforeEvents, bufferAfterEvents }, () => {
-    fetchAvailability();
-  });
+  chrome.storage.sync.set(
+    { startOfDay, endOfDay, minSlotDuration, bufferBeforeEvents, bufferAfterEvents, availabilityFormat, pointInterval },
+    () => {
+      fetchAvailability();
+    }
+  );
 }
 
 document.getElementById("startOfDay").addEventListener("input", saveSettings);
@@ -81,6 +105,27 @@ document.getElementById("endOfDay").addEventListener("input", saveSettings);
 document.getElementById("minSlotDuration").addEventListener("input", saveSettings);
 document.getElementById("bufferBeforeEvents").addEventListener("input", saveSettings);
 document.getElementById("bufferAfterEvents").addEventListener("input", saveSettings);
+document.getElementById("formatRanges").addEventListener("change", saveSettings);
+document.getElementById("formatPoints").addEventListener("change", saveSettings);
+document.getElementById("pointInterval").addEventListener("input", saveSettings);
+
+// Show/hide pointIntervalSetting based on selected format
+function updatePointIntervalVisibility() {
+  const pointIntervalSetting = document.getElementById("pointIntervalSetting");
+  const formatPoints = document.getElementById("formatPoints");
+  if (formatPoints.checked) {
+    pointIntervalSetting.classList.add("open");
+  } else {
+    pointIntervalSetting.classList.remove("open");
+  }
+}
+
+// Initial call on load
+updatePointIntervalVisibility();
+
+// Listen for changes to radio buttons
+document.getElementById("formatRanges").addEventListener("change", updatePointIntervalVisibility);
+document.getElementById("formatPoints").addEventListener("change", updatePointIntervalVisibility);
 
 export function fetchAvailability() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -125,8 +170,16 @@ function sendAvailabilityRequest(tabId) {
       unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, month, or 4 days view.";
     } else if (response.data) {
       document.getElementById("dateRange").textContent = response.data[1];
-      const days = Array.isArray(response.data[0]) ? response.data[0] : parseAvailability(response.data[0]);
-      renderAvailability(days);
+      chrome.storage.sync.get(["availabilityFormat", "pointInterval", "minSlotDuration"], (settings) => {
+        let days;
+        if ("availabilityFormat" in settings && settings.availabilityFormat === "points") {
+          days = slotsToPoints(response.data[0], parseInt(settings.pointInterval, 10) || 30, parseInt(settings.minSlotDuration, 10) || 0);
+        } else {
+          days = response.data[0];
+        }
+        renderAvailability(days);
+      })
+      // const days = Array.isArray(response.data[0]) ? response.data[0] : parseAvailability(response.data[0]);
     } else {
       console.log("No response from content script.");
     }

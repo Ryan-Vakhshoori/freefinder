@@ -172,18 +172,16 @@ async function extractAvailability(activeView, dates, callback) {
         availableSlots[date].push({ start: minutesToTime(slotStartWithBuffer), end: minutesToTime(endOfDay) });
       }
     }
-    // console.log("Available slots:", availableSlots); // Log the available slots for debugging
+    console.log("Available slots:", availableSlots); // Log the available slots for debugging
 
-    // Convert availableSlots to a readable format
-    const formattedSlots = Object.entries(availableSlots)
-      .filter(([date, slots]) => slots.length > 0) // Filter out dates with no available slots
-      .map(([date, slots]) => {
-        const formattedSlots = slots.map(slot => `${slot.start} - ${slot.end}`).join("\n");
-        return `${date}\n${formattedSlots}`;
-      })
-      .join("\n\n");
+    const filteredSlots = Object.entries(availableSlots)
+      .filter(([date, slots]) => slots.length > 0)
+      .map(([date, slots]) => ({
+        date,
+        slots: slots.map(slot => `${slot.start} - ${slot.end}`)
+      }));
 
-    callback(formattedSlots); // Pass the result to the callback
+    callback(filteredSlots); // Pass the array of { date, slots } objects to the callback
   });
 }
 
