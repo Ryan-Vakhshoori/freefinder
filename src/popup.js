@@ -4,39 +4,59 @@ import { initializeSettings } from './utils/settings.js';
 import { renderAvailability } from './utils/availabilityUI.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-  initializeSettings();
-  chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration"], (data) => {
-    if (data.startOfDay) {
-      document.getElementById("startOfDay").value = data.startOfDay;
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs.length === 0) {
+      console.error("No active tab found!");
+      return;
     }
-    if (data.endOfDay) {
-      document.getElementById("endOfDay").value = data.endOfDay;
+    const activeTab = tabs[0];
+    const url = activeTab.url;
+
+    const availabilityContainer = document.getElementById("availabilityContainer");
+    const unsupportedMessage = document.getElementById("unsupportedMessage");
+
+    if (!url || !url.includes("calendar.google.com")) {
+      availabilityContainer.classList.add("hidden");
+      unsupportedMessage.classList.add("open");
+      return;
     }
-    if (data.minSlotDuration) {
-      document.getElementById("minSlotDuration").value = data.minSlotDuration;
+    initializeSettings();
+    chrome.storage.sync.get(["startOfDay", "endOfDay", "minSlotDuration", "bufferBeforeEvents"], (data) => {
+      if (data.startOfDay) {
+        document.getElementById("startOfDay").value = data.startOfDay;
+      }
+      if (data.endOfDay) {
+        document.getElementById("endOfDay").value = data.endOfDay;
+      }
+      if (data.minSlotDuration) {
+        document.getElementById("minSlotDuration").value = data.minSlotDuration;
+      }
+      if (data.bufferBeforeEvents) {
+        document.getElementById("bufferBeforeEvents").value = data.bufferBeforeEvents;
+      }
+    });
+    fetchAvailability();
+
+    // Replace the settings button SVG with a Feather icon dynamically
+    const settingsBtn = document.getElementById("settingsBtn");
+    if (settingsBtn) {
+      settingsBtn.innerHTML = feather.icons.settings.toSvg({ width: 25, height: 25, stroke: "#eff2f6" });
+    }
+
+    const backBtn = document.getElementById("backBtn");
+    if (backBtn) {
+      backBtn.innerHTML = feather.icons['arrow-left'].toSvg({ width: 22, height: 22, stroke: "#eff2f6" });
+      backBtn.addEventListener("click", () => {
+        document.getElementById("settingsContainer").classList.remove("open");
+        document.getElementById("availabilityContainer").classList.remove("hidden");
+      });
     }
   });
-  fetchAvailability();
-
-  // Replace the settings button SVG with a Feather icon dynamically
-  const settingsBtn = document.getElementById("settingsBtn");
-  if (settingsBtn) {
-    settingsBtn.innerHTML = feather.icons.settings.toSvg({ width: 25, height: 25, stroke: "#eff2f6" });
-  }
-
-  const backBtn = document.getElementById("backBtn");
-  if (backBtn) {
-    backBtn.innerHTML = feather.icons['arrow-left'].toSvg({ width: 22, height: 22, stroke: "#eff2f6" });
-    backBtn.addEventListener("click", () => {
-      document.getElementById("settingsContainer").classList.remove("open");
-      document.getElementById("availabilityContainer").style.display = "block";
-    });
-  }
 });
 
 document.getElementById("settingsBtn").addEventListener("click", () => {
   console.log("Settings button clicked");
-  availabilityContainer.style.display = "none";
+  document.getElementById("availabilityContainer").classList.add("hidden");
   const panel = document.getElementById("settingsContainer");
   panel.classList.toggle("open");
 });
@@ -45,8 +65,9 @@ function saveSettings() {
   const startOfDay = document.getElementById("startOfDay").value;
   const endOfDay = document.getElementById("endOfDay").value;
   const minSlotDuration = parseInt(document.getElementById("minSlotDuration").value, 10);
+  const bufferBeforeEvents = parseInt(document.getElementById("bufferBeforeEvents").value, 10) || 0;
 
-  chrome.storage.sync.set({ startOfDay, endOfDay, minSlotDuration }, () => {
+  chrome.storage.sync.set({ startOfDay, endOfDay, minSlotDuration, bufferBeforeEvents }, () => {
     fetchAvailability();
   });
 }
@@ -54,28 +75,11 @@ function saveSettings() {
 document.getElementById("startOfDay").addEventListener("input", saveSettings);
 document.getElementById("endOfDay").addEventListener("input", saveSettings);
 document.getElementById("minSlotDuration").addEventListener("input", saveSettings);
+document.getElementById("bufferBeforeEvents").addEventListener("input", saveSettings);
 
 export function fetchAvailability() {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (tabs.length === 0) {
-      console.error("No active tab found!");
-      return;
-    }
-
     const activeTab = tabs[0];
-    const url = activeTab.url;
-
-    const availabilityContainer = document.getElementById("availabilityContainer");
-    const unsupportedMessage = document.getElementById("unsupportedMessage");
-
-    if (!url || !url.includes("calendar.google.com")) {
-      availabilityContainer.style.display = "none";
-      unsupportedMessage.style.display = "block";
-      return;
-    }
-
-    availabilityContainer.style.display = "block";
-    unsupportedMessage.style.display = "none";
 
     chrome.tabs.sendMessage(activeTab.id, { action: "ping" }, (response) => {
       if (response && response.data === "pong") {
@@ -111,8 +115,8 @@ function sendAvailabilityRequest(tabId) {
     const unsupportedMessage = document.getElementById("unsupportedMessage");
 
     if (response.data == "Unsupported view") {
-      availabilityContainer.style.display = "none";
-      unsupportedMessage.style.display = "block";
+      availabilityContainer.classList.add("hidden");
+      unsupportedMessage.classList.add("open");
       unsupportedMessage.textContent = "Unsupported view detected. Please switch to day, week, month, or 4 days view.";
     } else if (response.data) {
       document.getElementById("dateRange").textContent = response.data[1];

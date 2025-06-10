@@ -50,13 +50,16 @@ input[type="time"]::placeholder {
 }
 
 /* ===== Containers ===== */
-#timeInputsContainer,
-#slotDurationContainer {
+.settingsCard {
   background: #202733;
   margin: 10px 10px;
   padding: 10px;
   border-radius: 6px;
   border-bottom: 1px solid #000;
+}
+
+#mainSettings {
+  border-top: 1px solid #525b6a;
 }
 
 #timeInputsContainer {
@@ -87,12 +90,12 @@ input[type="time"]::placeholder {
   font-weight: bold;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Add this line */
   width: 100%;                   /* Ensure full width */
+  border-bottom: 1px solid #525b6a;
 }
 
-#settingsContainer {
-  margin: 16.5px 0 16.5px 10px;
+.settingsHeader {
+  padding: 16.5px 0 16.5px 10px;
 }
 
 #dateRange {
@@ -198,12 +201,10 @@ input[type="time"]::placeholder {
 }
 
 /* ===== Scrollbar Styles ===== */
-#availabilityDays {
+.content {
   max-height: 300px;
   overflow-y: auto;
   scrollbar-color: #79808e #121a27;
-  border-top: 1px solid #525b6a;
-  border-bottom: 1px solid #525b6a;
   padding: 10px 0;
   box-sizing: content-box;
 }
@@ -231,13 +232,13 @@ hr {
 }
 
 /* ===== Inputs: Number Spin Buttons ===== */
-#minSlotDuration::-webkit-inner-spin-button,
-#minSlotDuration::-webkit-outer-spin-button {
+.numberInput::-webkit-inner-spin-button,
+.numberInput::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-#minSlotDuration {
+#numberInput {
   -moz-appearance: textfield; /* Firefox */
 }
 
@@ -301,10 +302,24 @@ hr {
   display: block;
 }
 
-#settingsContainer {
+#settingsContainer,
+#unsupportedMessage {
   display: none;
 }
 
-#settingsContainer.open {
+#settingsContainer.open,
+#unsupportedMessage.open {
   display: block;
+}
+
+#settingsText {
+  margin: 0px;
+}
+
+#availabilityContainer {
+  display: block;
+}
+
+#availabilityContainer.hidden {
+  display: none;
 }

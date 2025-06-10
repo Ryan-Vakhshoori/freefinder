@@ -9,32 +9,36 @@
 </head>
 <body>
   <div id="availabilityContainer">
-    <div id="headerContainer" style="display: flex; align-items: center;">
+    <div id="headerContainer">
       <div id="dateRange"></div>
       <button id="settingsBtn" title="Settings" class="settings-btn"></button>
     </div>
-    <div id="availabilityDays" style="max-height: 300px; overflow-y: auto;"></div>
-    <div id="timeInputsContainer">
-      <div class="timeInputGroup">
-        <label for="startOfDay">Day start time</label>
-        <input type="time" id="startOfDay" value="00:00">
+    <div id="availabilityDays" class="content"></div>
+    <div id="mainSettings">
+      <div id="timeInputsContainer" class="settingsCard">
+        <div class="timeInputGroup">
+          <label for="startOfDay">Day start time</label>
+          <input type="time" id="startOfDay" value="00:00">
+        </div>
+        <div class="timeInputGroup">
+          <label for="endOfDay">Day end time</label>
+          <input type="time" id="endOfDay" value="23:59">
+        </div>
       </div>
-      <div class="timeInputGroup">
-        <label for="endOfDay">Day end time</label>
-        <input type="time" id="endOfDay" value="23:59">
+      <div id="slotDurationContainer" class="settingsCard">
+        <label for="minSlotDuration">Minimum slot duration (minutes)</label>
+        <input type="number" id="minSlotDuration" class="numberInput" value="15" min="1">
       </div>
-    </div>
-    <div id="slotDurationContainer">
-      <label for="minSlotDuration">Minimum slot duration (minutes)</label>
-      <input type="number" id="minSlotDuration" value="15" min="1">
     </div>
   </div>
   <div id="settingsContainer">
-    <div id="headerContainer" style="display: flex; align-items: center;">
-      <div style="display: flex; align-items: center;">
-        <button id="backBtn" class="settings-btn" title="Back" style="margin-right: 8px;"></button>
-        <p style="margin: 0;">Settings</p>
-      </div>
+    <div id="headerContainer" class="settingsHeader">
+      <button id="backBtn" class="settings-btn" title="Back"></button>
+      <p id="settingsText">Settings</p>
+    </div>
+    <div class="settingsCard">
+      <label for="bufferBeforeEvents">Buffer before events (minutes)</label>
+      <input type="number" id="bufferBeforeEvents" class="numberInput" value="0" min="0">
     </div>
     <!-- ...rest of settings content... -->
   </div>
