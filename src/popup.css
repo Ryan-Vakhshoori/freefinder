@@ -175,7 +175,7 @@ input[type="time"]::placeholder {
   margin-bottom: 10px;
 }
 
-.settingsCard .settingInput:last-child {
+.settingsCard :last-child {
   margin-bottom: 0;
 }
 
