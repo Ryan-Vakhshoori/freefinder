@@ -269,13 +269,13 @@ hr {
   margin: 5px 0 5px;
 }
 
-.slot:hover {
-  background: #1a274e;
-}
-
 .slot.selected {
   background: #16297a;
   border-radius: 4px;
+}
+
+.slot:hover {
+  background: #1a274e;
 }
 
 /* ===== Select All Styles ===== */
