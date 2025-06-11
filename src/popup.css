@@ -377,3 +377,9 @@ input[type="radio"]:hover {
 .day-header.collapsed {
   margin-bottom: 10px;
 }
+
+/* Only decrease margin-bottom for the last .day-header if it is also collapsed */
+.day-header.collapsed:last-of-type,
+.day-component:last-child .day-header.collapsed {
+  margin-bottom: 5px;
+}
