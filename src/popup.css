@@ -112,12 +112,12 @@ input[type="time"]::placeholder {
   border-bottom: 1px solid #000;
 }
 
-#dateRange:hover {
-  background: #1a274e;
-}
-
 #dateRange.selected {
   background: #16297a;
+}
+
+#dateRange:hover {
+  background: #1a274e;
 }
 
 /* ===== Copy Buttons ===== */
