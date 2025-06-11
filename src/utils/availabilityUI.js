@@ -75,7 +75,6 @@ export function renderAvailability(days) {
   days.forEach(day => {
     const dayDiv = document.createElement("div");
     dayDiv.className = "day-component";
-    dayDiv.style.cursor = "pointer";
 
     // Header
     const header = document.createElement("div");
@@ -99,12 +98,18 @@ export function renderAvailability(days) {
     let expanded = true;
     const slotsDiv = document.createElement("div");
     slotsDiv.className = "day-slots";
-    slotsDiv.style.display = "block";
 
     toggleBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       expanded = !expanded;
-      slotsDiv.style.display = expanded ? "block" : "none";
+      if (expanded) {
+        slotsDiv.classList.remove("hidden");
+        header.classList.remove("collapsed");
+      }
+      else {
+        slotsDiv.classList.add("hidden");
+        header.classList.add("collapsed");
+      }
       toggleBtn.innerHTML = expanded
         ? feather.icons['chevron-up'].toSvg({ width: 18, height: 18 })
         : feather.icons['chevron-down'].toSvg({ width: 18, height: 18 });

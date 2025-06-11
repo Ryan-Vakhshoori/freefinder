@@ -155,19 +155,17 @@ input[type="time"]::placeholder {
 /* ===== Day Components ===== */
 .day-component {
   margin: 0 10px 10px;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
 .day-component:last-child {
   margin-bottom: 0;
 }
 
-.day-component .slot {
+.day-component {
   margin-bottom: 8px;
 }
 
-.day-component .slot:last-child {
+.day-component {
   margin-bottom: 0;
 }
 
@@ -190,6 +188,7 @@ input[type="time"]::placeholder {
   border-radius: 4px;
   transition: background 0.2s;
   border-bottom: 1px solid #000;
+  margin: 5px 0;
 }
 
 .day-header:hover {
@@ -207,16 +206,12 @@ input[type="time"]::placeholder {
   gap: 3px;
 }
 
-.day-header + .day-slots .slot:first-child {
-  margin-top: 8px;
-}
-
 /* ===== Scrollbar Styles ===== */
 .content {
   max-height: 300px;
   overflow-y: auto;
   scrollbar-color: #79808e #121a27;
-  padding: 10px 0;
+  margin: 5px 0;
   box-sizing: content-box;
 }
 
@@ -233,6 +228,8 @@ input[type="time"]::placeholder {
 #availabilityDays::-webkit-scrollbar-track {
   background: #121a27;
 }
+
+
 
 /* ===== Horizontal Rule ===== */
 hr {
@@ -270,6 +267,7 @@ hr {
   text-align: center;
   transition: background 0.2s;
   border-bottom: 1px solid #000;
+  margin: 5px 0 5px;
 }
 
 .slot:hover {
@@ -327,10 +325,6 @@ hr {
   margin: 0;
 }
 
-.day-header {
-  margin: 0px;
-}
-
 #availabilityContainer {
   display: block;
 }
@@ -367,4 +361,19 @@ input[type="radio"]:hover {
 
 #pointIntervalSetting {
   margin-top: 5px;
+}
+
+.day-slots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+}
+
+.day-slots.hidden {
+  display: none;
+}
+
+/* Add this at the end of your CSS file */
+.day-header.collapsed {
+  margin-bottom: 10px;
 }
