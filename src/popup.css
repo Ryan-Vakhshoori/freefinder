@@ -191,13 +191,12 @@ input[type="time"]::placeholder {
   margin: 5px 0;
 }
 
-.day-header:hover {
+.day-header:hover:not(:has(.toggle-btn:hover)) {
   background: #1a274e;
 }
 
 .day-header.selected {
   background: #16297a;
-  border-radius: 4px;
 }
 
 .day-header .right-controls {
